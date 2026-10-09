@@ -1,9 +1,11 @@
 import sys
 import random
 
+<<<<<<< HEAD
 # Oh my god a different change (made on branch hw_1a) !!
+=======
 # Now modified it in feature branch hw_1b !!
-# I shifted one commnent down one line to keep both !! The conflict has been resolved!
+>>>>>>> hw_1b
 if len(sys.argv) < 2:
     print("Script just accepts a single filename as a command-line argument")
     sys.exit(1)
