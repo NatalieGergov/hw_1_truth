@@ -1,0 +1,32 @@
+Step 6: Write a brief comparison.
+
+Prompt: 
+
+Write a short paragraph comparing your model to the LLM-generated one. Address which is
+simpler, more complete, or easier to implement.
+
+Answer:
+    Much simpler and clearer because I just directly looked at the instructions, 
+    then found corresponding concepts and designs in the two Django doc files 
+    shared in the homework instructions and went from there. 
+    I have all the required fields (I think) as such. 
+    
+    On the other hand, Gemini has created a much richer database, 
+    including extra attributes for the entities (like department, 
+    office location for the instructors, major for the students, 
+    time of creation for courses). 
+    It also created an AttendanceRecord entity that records attendance 
+    instead of a QRCodeUpload entity that I used. 
+    
+    However, I think Gemini provided much more functionality than is actually needed. 
+    I think it is best to keep things simple until more complexity is needed 
+    (and then I can scale up), rather than introduce unnecessary elements to the design. 
+    Mine is thus more closely aligned to the project’s instructions 
+    (though to be fair to Gemini, I was looking at the skeleton of the models.py file, 
+    while Gemini simply got my prompt). 
+
+    Thus, while I feel that Gemini’s may be more complete in a sense, 
+    I think mine is simpler and easier to understand and implement.
+
+Note: my formatting may be weird I wasn't sure if I should just add everything
+to one sentence so I tried splitting the lines as best I could heheh
