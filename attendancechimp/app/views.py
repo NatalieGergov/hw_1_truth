@@ -9,9 +9,9 @@ from django.shortcuts import render, redirect
 from django.http import (HttpResponse, HttpResponseForbidden,
                          HttpResponseBadRequest, JsonResponse)
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET, require_POST # HW 4
+from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.models import User
-from .models import StudentProfile, InstructorProfile # HW 4
+from .models import StudentProfile, InstructorProfile
 from django.contrib.auth import authenticate, login
 from datetime import datetime
 import zoneinfo
