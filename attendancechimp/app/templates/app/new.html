@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign-Up Form for AttendanceChimp</title>
+</head>
+<body>
+
+    <h1>Sign Up Form</h1>
+
+    <form action="/app/createUser" method="POST">
+        {% csrf_token %}
+
+        <p>
+            <label for="user_name">Username:</label>
+            <input type="text" id="user_name" name="user_name" required>
+        </p>
+
+        <p>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </p>
+
+        <p>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </p>
+
+        <p>Account type:</p>
+
+        <input type="radio" id="student" name="is_student" value="1" required>
+        <label for="student">Student</label>
+
+        <input type="radio" id="instructor" name="is_student" value="0">
+        <label for="instructor">Instructor</label>
+
+        <p>
+            <button type="submit">Sign Up</button>
+        </p>
+
+    </form>
+
+</body>
+</html>
