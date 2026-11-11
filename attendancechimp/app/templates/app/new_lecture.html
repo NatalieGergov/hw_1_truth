@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a lecture for AttendanceChimp</title>
+</head>
+<body>
+
+    <h1>Create a new lecture</h1>
+
+    <form action="/app/createLecture" method="POST">
+
+        <p>
+            <label for="choice">Select Course:</label>
+            
+            <select id="choice" name="choice" required>
+                {% for c in courses %}
+                <option value="{{ c.name }}">
+                    {{ c.name}}
+                </option>
+                {% endfor %}
+            </select>
+        </p>
+
+        <p>
+            <button type="submit">Create Lecture</button>
+        </p>
+
+    </form>
+
+</body>
+</html>

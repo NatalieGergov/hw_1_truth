@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a QR Code for AttendanceChimp</title>
+</head>
+<body>
+
+    <h1>Create a new QRCode</h1>
+
+    <form action="/app/createQRCodeUpload" method="POST" enctype="multipart/form-data">
+
+        <p>
+            <label for="imageUpload">Select QR Code Image:</label>
+            <input type="file" id="imageUpload" name="imageUpload" required>
+         </p>
+
+        <p>
+            <button type="submit">Upload QR Code</button>
+        </p>
+
+    </form>
+
+</body>
+</html>

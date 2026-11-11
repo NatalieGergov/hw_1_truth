@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a course for AttendanceChimp</title>
+</head>
+<body>
+
+    <h1>Create a new course</h1>
+
+    <form action="/app/createCourse" method="POST">
+
+        <p>
+            <label for="course-name">Course Name:</label>
+            <input type="text" id="course-name" name="course-name" required>
+        </p>
+
+        <p>
+            <label for="start-time">Start Time:</label>
+            <input type="time" id="start-time" name="start-time" required>
+        </p>
+
+        <p>
+            <label for="end-time">End Time:</label>
+            <input type="time" id="end-time" name="end-time" required>
+        </p>
+
+        <p>Meeting Days:</p>
+
+        <input type="checkbox" id="day-mon" name="day-mon" value="Monday">
+        <label for="day-mon">Monday</label>
+
+        <input type="checkbox" id="day-mon" name="day-mon" value="Monday">
+        <label for="day-mon">Tuesday</label>
+
+        <input type="checkbox" id="day-mon" name="day-mon" value="Monday">
+        <label for="day-mon">Wednesday</label>
+
+        <input type="checkbox" id="day-mon" name="day-mon" value="Monday">
+        <label for="day-mon">Thursday</label>
+
+        <input type="checkbox" id="day-mon" name="day-mon" value="Monday">
+        <label for="day-mon">Friday</label>
+
+        <p>
+            <button type="submit">Create Course</button>
+        </p>
+
+    </form>
+
+</body>
+</html>

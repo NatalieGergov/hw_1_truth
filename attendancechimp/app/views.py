@@ -11,9 +11,11 @@ from django.http import (HttpResponse, HttpResponseForbidden,
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET, require_POST
 from django.contrib.auth.models import User
-from .models import StudentProfile, InstructorProfile
+from .models import StudentProfile, InstructorProfile, Course, Lecture, QRCodeUpload
 from django.contrib.auth import authenticate, login
 from datetime import datetime
+from django.utils import timezone
+import uuid
 import zoneinfo
 import json
 import io
@@ -115,6 +117,125 @@ def createUser(request):
 # HW5  — courses, lectures, QR uploads, dump
 # ---------------------------------------------------------------------------
 
+def new_course(request):
+    return render(request, 'app/new_course.html')
+
+def new_lecture(request):
+    context = { 'courses': Course.objects.all()}
+    return render(request, 'app/new_lecture.html', context)
+
+def new_qr_upload(request):
+    return render(request, 'app/new_qr_upload.html')
+
+@csrf_exempt
+@require_POST
+def createCourse(request):
+
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if not hasattr(request.user, 'instructorprofile'):
+        return HttpResponse(status=401)
+
+    course_name = request.POST.get('course-name')
+    start_time = request.POST.get('start-time')
+    end_time = request.POST.get('end-time')
+
+    days= [
+        ("day-mon", "Monday"),
+        ("day-tue", "Tuesday"),
+        ("day-wed", "Wednesday"),
+        ("day-thu", "Thursday"),
+        ("day-fri", "Friday")
+    ]
+
+    meeting_days = []
+
+    for field, day in days:
+        if request.POST.get(field):
+            meeting_days.append(day)
+
+    if not course_name or not start_time or not end_time or not meeting_days:
+        return HttpResponseBadRequest("Missing course information")
+
+    # Ensuring no duplicates because course name is unique (not sure if this is necessary)
+    if Course.objects.filter(name=course_name).exists():
+        return HttpResponseBadRequest("Course name already exists")
+
+    Course.objects.create(
+        name=course_name,
+        instructor=request.user.instructorprofile,
+        meeting_schedule=f"{', '.join(meeting_days)}: {start_time} to {end_time}"
+    )
+
+    return HttpResponse("Course created successfully", status=201)
+
+@csrf_exempt
+@require_POST
+def createLecture(request):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if not hasattr(request.user, 'instructorprofile'):
+        return HttpResponse(status=401)
+
+    course_name = request.POST.get('choice')
+    if not course_name:
+        return HttpResponseBadRequest("Missing course name")
+
+    try:
+        course = Course.objects.get(name=course_name)
+    except Course.DoesNotExist:
+        return HttpResponseBadRequest("Course not found")
+
+    Lecture.objects.create(
+        course=course,
+        lecture_date=timezone.now(),
+        qr=uuid.uuid4().hex
+    )
+
+    return HttpResponse("Lecture created successfully", status=201)
+
+
+@csrf_exempt
+@require_POST
+def createQRCodeUpload(request):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if not hasattr(request.user, 'studentprofile'):
+        return HttpResponse(status=401)
+
+    image_file = request.FILES.get('imageUpload')
+    if not image_file:
+        return HttpResponseBadRequest("No image provided")
+
+    QRCodeUpload.objects.create(
+        student=request.user.studentprofile,
+        image=image_file
+    )
+    
+    return HttpResponse("QR upload successful", status=201)
+
+
+@require_GET
+def dumpUploads(request):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+
+    if not hasattr(request.user, 'instructorprofile'):
+        return HttpResponse(status=401)
+
+    uploads = QRCodeUpload.objects.select_related('student').all()
+    data = []
+
+    for upload in uploads:
+        data.append({
+            "username": upload.student.user.username,
+            "upload_time": timezone.localtime(upload.upload_time).strftime("%Y-%m-%d %H:%M:%S")
+        })
+
+    return JsonResponse(data, safe=False)
 
 
 # ---------------------------------------------------------------------------
